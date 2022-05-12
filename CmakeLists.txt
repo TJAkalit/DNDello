@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.22.0)
+
+project(DNDello VERSION 0.1.1 LANGUAGES CXX)
+
+SET(VCPKG_INCLUDES C:/dev/vcpkg/installed/x64-windows/include)
+
+add_executable(server src/main.cpp)
+target_include_directories(server PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(server PRIVATE ${VCPKG_INCLUDES})
+
+find_package(lua 5.1 REQUIRED)
+target_link_libraries(server lua)
