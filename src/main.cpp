@@ -18,19 +18,13 @@ void test(dndello::server::Session& _session, std::string param)
     lua_close(L);
 };
 
-void tested_view(dndello::server::Session& session, std::string param)
-{
-    std::cout << param << std::endl;
-};
-
 int main(int argc, char **argv)
 {
     std::shared_ptr<dndello::server::Panel> panel(new dndello::server::Panel(1));
 
     std::shared_ptr<dndello::server::Server> serv1 = panel->make_server(std::string("127.0.0.1"), 8080);
 
-    serv1->add_route(std::string("/test_route.html"), tested_view, std::string("test_param1"));
-    serv1->add_route(std::string("/index.html"), tested_view, std::string("test_param1"));
+    serv1->add_route(std::string("/index.html"), dndello::server::static_file_view, std::string("index.html"));
 
     serv1->sync_run();
 
