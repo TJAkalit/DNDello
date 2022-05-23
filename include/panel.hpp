@@ -56,6 +56,14 @@ namespace dndello
                     socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
                 };
 
+                std::string getTarget()
+                {
+                    std::string uri = this->request.target().to_string();
+                    if (uri[uri.size() - 1] == '/')
+                        uri.append("index.html");
+                    return uri;
+                };
+
                 boost::beast::http::request<boost::beast::http::string_body> request;
                 boost::beast::http::response<boost::beast::http::string_body> response;
                 std::shared_ptr<Server> server;
@@ -169,7 +177,7 @@ namespace dndello
 
         void Session::proceed()
         {
-            auto view = server->routes.find(request.target().to_string());
+            auto view = server->routes.find(this->getTarget());
             if (view != server->routes.end())
                 view->second(*this);
             else
